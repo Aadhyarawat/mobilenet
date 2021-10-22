@@ -1,0 +1,71 @@
+<html>
+<head>
+  <title>Real Time Image Identification App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.js"></script>
+  <script src="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body  background="background.jpg">
+<center>
+  <h3 class="btn btn-primary heading">Google Lens and Mobilenet casestudy
+    <center>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 heading_div">
+        Google lens <img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Google_Lens_-_new_logo.png">
+        <br>
+         
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 heading_div">
+          Mobilenet <img src="data:image/png;base64,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">
+          <br>
+           <div class="test_image_and_result col-xs-12">
+             <li class="col-sm-4 col-xs-12">
+               <b>Test Image - </b>
+               <img src="ballon.png" class="img-responsive">
+             </li>
+             <h5 class="col-sm-4 col-xs-12">
+               Output on<b>Google Lens</b>
+               <span>Google lens correctly detected as ballon</span>
+             </h5>
+             <h5 class="col-sm-4 col-xs-12">
+              Output on<b>Mobilenet Model</b>
+              <div class"mini_result" class="col-xs-12">
+                <h4>Result - </h4>
+                <hr>
+                <h4> Mobilenet detected as ball</h4>
+              </div>
+              <span></span>
+            </h5>
+           </div>
+          </div>
+    </center>
+    <br>
+  </h3>
+  <br><br>
+  
+  <p class="btn btn-sucess result_para_tag">Object : 
+    <span id="result_object_name"></span> 
+  </p>
+  
+  <br><br>
+  <p class="btn btn-sucess result_para_tag">Accuracy : 
+    <span id="result_object_accuracy"></span> 
+  </p>
+
+</center>
+
+<div class="copy_right_footer">
+Developed by - Aadhya Rawat
+</div>
+
+<script src="main.js"></script>
+</body>
+
+</html>
+
+
